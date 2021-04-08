@@ -93,19 +93,28 @@ section ul li  {
 }
 
 img  {
-    display: block;
-    margin: 0;  
+    display: block;    margin: 0;  
 }
+
+.download-cv {
+    background-color: grey;
+    box-shadow: 5px 5px 2px lightgrey;
+    text-align: center;
+    font-size: 0.25rem;
+    text-decoration: none;
+    color: white;
+}
+
 
 footer {
     position: relative;
     top: 3rem;
 }
 
-
 .hidden {
     display: none;
 }
+
 
 @media only screen and (max-width: 480px) and (min-width: 320px)  {
     
