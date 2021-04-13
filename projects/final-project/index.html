@@ -10,34 +10,37 @@
     
     <link rel="stylesheet" href="./css/style.css" title="" type="text/css">
 
-    <!-- Latest Bootstrap CSS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <!-- Latest Compiled JavaScript -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-3 navbar d-flex flex-column justify-content-center">
-                <ul class="navbar-nav h4 fixed-top ml-5 mt-5">
-                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li>
-                </ul>
+            <nav class="col-3 nav flex-column align-items-start border h4">
+                <div class="fixed-top">
+                    <a class="nav-link active" href="#">Dashboard</a>
+                    <a class="nav-link" href="#">Calendar</a>
+                    <a class="nav-link disabled" href="#">Options</a>
+                </div>
+                <!-- <ul class="nav flex-column h4 fixed-top ml-5 mt-5 mr-auto"> -->
+                <!--     <li class="nav-item"><a class="nav-link border active" href="#">Dashboard</a></li> -->
+                <!--     <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li> -->
+                <!--     <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li> -->
+                <!-- </ul> -->
             </nav>
             <div class="col-9 d-flex flex-column align-items-center justify-conetnt-end">
-                <header class="row my-5 mr-5">
+                <header class="row my-5">
                     <div class="col d-flex flex-column align-items-center">
                         <h1>Task Manager</h1>
                         <h2>Dashboard</h2>
                     </div>
                 </header>
-                <main class="row mr-5" role="main">
+                <main class="row" role="main">
                     <div class="col">
                         <div class="row">
 
@@ -69,15 +72,15 @@
                         <article class="card shadow mb-3">
                             <div class="card-header">
                                 <div class="row d-flex justify-content-start">
-                                    <div class="col-2 d-flex justify-content-start align-items-center">
+                                    <div class="col-lg-2 col-md-2 d-flex justify-content-start align-items-center">
                                         <div class="status-symbol">
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <h3 class="card-title">Name of the task</h3>
-                                        <h4 class="card-subtitle text-muted">Assigned to John Walker</h4>      
+                                    <div class="col-lg-5 col-md-5">
+                                        <h3 class="card-title">Task Name </h3>
+                                        <h4 class="card-subtitle text-muted h5">Assigned to John Walker</h4>      
                                     </div>
-                                    <div class="col-4 d-flex justify-content-end align-items-start">
+                                    <div class="col-lg-5 col-md-5 d-flex justify-content-end align-items-start">
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Status
@@ -94,10 +97,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p class="card-text">Due Date: 12/04/2021</p>
-                                <p class="card-text">Status: in progress</p>
+                            <div class="card-body pb-0">
+                                <p class="card-text">description of the task</p>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text">Due Date: 12/04/2021</p>
+                                    <p class="card-text">Status: <strong class="text-danger">in progress</strong></p>
+                                </div>
                             </div>
                         </article>
                        
