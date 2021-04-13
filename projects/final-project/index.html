@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Manager</title>
+   
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="./css/style.css" title="" type="text/css">
+
+    <!-- Latest Bootstrap CSS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest Compiled JavaScript -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-3 navbar d-flex flex-column justify-content-center">
+                <ul class="navbar-nav h4 fixed-top ml-5 mt-5">
+                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li>
+                </ul>
+            </nav>
+            <div class="col-9 d-flex flex-column align-items-center justify-conetnt-end">
+                <header class="row my-5 mr-5">
+                    <div class="col d-flex flex-column align-items-center">
+                        <h1>Task Manager</h1>
+                        <h2>Dashboard</h2>
+                    </div>
+                </header>
+                <main class="row mr-5" role="main">
+                    <div class="col">
+                        <div class="row">
+
+                            <!-- empty space -->
+                            <div class="col-6 mb-3"></div>
+                            
+                            <!-- action dropdown button above the task cards -->
+                            <div class="col-2 dropdown mb-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownActionButton">
+                                    <a class="dropdown-item" href="#">Select All</a>
+                                    <a class="dropdown-item" href="#">Sort by Date</a>
+                                    <a class="dropdown-item" href="#">Sort by Name</a>
+                                </div>
+                            </div>
+                                
+                            <!-- the search bar above the task cards -->
+                            <div class="col-4 input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search..." aria-label="search bar" aria-describedby="button-addon">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon">Go!</button>
+                                </div>
+                            </div> 
+                        </div>
+
+                        <!-- the task cards -->
+                        <article class="card shadow mb-3">
+                            <div class="card-header">
+                                <div class="row d-flex justify-content-start">
+                                    <div class="col-2 d-flex justify-content-start align-items-center">
+                                        <div class="status-symbol">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h3 class="card-title">Name of the task</h3>
+                                        <h4 class="card-subtitle text-muted">Assigned to John Walker</h4>      
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end align-items-start">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Status
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownStatusButton">
+                                                <a class="dropdown-item" href="#">todo</a>
+                                                <a class="dropdown-item" href="#">in progress</a>
+                                                <a class="dropdown-item" href="#">review</a>
+                                                <a class="dropdown-item" href="#">done</a>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="pencil-icon ml-3"></a>
+                                        <a href="#" class="trash-icon ml-3"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p class="card-text">Due Date: 12/04/2021</p>
+                                <p class="card-text">Status: in progress</p>
+                            </div>
+                        </article>
+                       
+                        
+                        <!-- the plus button to add a new task -->
+                        <a href="./form.html">
+                            <div class="card shadow mb-5">
+                                <div class="card-body d-flex justify-content-start align-items-center">
+                                    <span class="plus-icon"></span>
+                                    <p class="card-text text-center mx-auto">Add new task!</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </main>
+                <footer class="row">
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+html {
+}
+
+
+.status-symbol {
+    width: 50px;
+    height: 50px;
+    background-image: url(../img/circle_red.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.plus-icon {
+    height: 30px;
+    width: 30px;
+    background-image: url(../img/circle-plus.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pencil-icon  {
+    height: 25px;
+    width: 25px;
+    background-image: url(../img/pencil.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+}
+
+.trash-icon {
+    height: 25px;
+    width: 25px; 
+    background-image: url(../img/trash.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+}

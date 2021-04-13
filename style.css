@@ -105,16 +105,16 @@ img  {
     width: 100%;
     margin: 25px auto;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
     background-color: grey;
     box-shadow: 5px 5px 2px lightgrey;
     border-radius: 10px;
     text-align: center;
     font-size: 0.5rem;
     font-weight: 500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
 }
 
 a {

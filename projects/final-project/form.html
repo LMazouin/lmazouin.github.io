@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Manager</title>
+   
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Latest Bootstrap CSS -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+    <!-- jQuery Library -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <!-- <!-1- Popper JS -1-> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
+    <!-- Latest Compiled JavaScript -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-3 navbar d-flex flex-column justify-content-center">
+                <ul class="navbar-nav h4 fixed-top ml-5 mt-5">
+                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li>
+                </ul>
+            </nav>
+            <div class="col-9">
+                <header class="row my-5 mr-5">
+                    <div class="col d-flex flex-column align-items-center">
+                        <h1>Task Manager</h1>
+                        <h2>Dashboard</h2>
+                    </div>
+                </header>
+                <main class="row mr-5" role="main">
+                    <div class="col">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="taskName">Name</label>
+                                <input type="text" name="taskName" id="taskName" placeholder="name of the task" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="assignedTo">Assigned to</label>
+                                <input type="text" name="assignedTo" id="assignedTo" placeholder="John Walker" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="dueDate">Due Date</label>
+                                <input type="date" name="dueDate" id="dueDate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDescription">Description</label>
+                                <textarea name="taskDescription" id="taskDescription" placeholder="short description of te task" class="form-control" rows=3></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </main>
+                <footer class="row">
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
