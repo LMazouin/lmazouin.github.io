@@ -1,0 +1,9 @@
+.hidden{
+    display: none;
+}
+
+#temperature{
+    height: 50px;
+    width: 50px;
+    background-color: rgb(255,255,255);
+}

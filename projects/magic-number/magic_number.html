@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">>
+    <title>Magic Number</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex flex-column align-items-center">
+                <h1 class="mb-3"> Find the Mysterious Number!</h1>
+                <h2 class="h3">Difficulty:</h2>
+                <div class="row d-flex align-items-center w-50 mb-3">
+                    <div class="col-4 form-check">
+                        <input oninput="displayDifficultyLevel()" type="radio" value="easy" name="difficulty-level"
+                            id="easy" checked class="form-check-input">
+                        <label for="easy" class="form-check-label">Easy</label>
+                    </div>
+
+                    <div class="col-4 form-check">
+                        <input oninput="displayDifficultyLevel()" type="radio" value="normal" name="difficulty-level"
+                            id="normal" class="form-check-input">
+                        <label for="normal" class="form-check-label">Normal</label>
+                    </div>
+
+                    <div class="col-4 form-check">
+                        <input oninput="displayDifficultyLevel()" type="radio" value="hard" name="difficulty-level"
+                            id="hard" class="form-check-input">
+                        <label for="hard" class="form-check-label">Hard</label>
+                    </div>
+                </div>
+
+                <label for="user-input" class="input-label" id="user-input-label">Enter a number between 0 and
+                    10!</label>
+                <input type="text" name="user-input" id="user-input" value="0"
+                    class="form-control mb-3 text-center w-25">
+                <button type="submit" name="submit-button" id="submit-button" onclick="checkNumber()"
+                    class="btn btn-primary mb-3">Submit
+                    Guess!
+                </button>
+                <p id="counter" class="mb-3"></p>
+                <div id="fail-message" class="alert alert-danger mb-3 hidden"></div>
+                <div id="success-message" class="alert alert-success mb-3 hidden"></div>
+                <div id="hint-message" class="alert alert-warning mb-3 hidden"></div>
+                <div id="temperature"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+    <script>
+        console.log('Hello!');
+
+        // initialize global variables
+
+
+        let min = 0;
+        let max = 10;
+        let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+
+        // class to hold color objects as a RGB code
+        class Color {
+            constructor(red, green, blue) {
+                this._red = red;
+                this._green = green;
+                this._blue = blue;
+            }
+            get red() {
+                return this._red;
+            }
+            get green() {
+                return this._green;
+            }
+            get blue() {
+                return this._blue;
+            }
+            set red(_red) {
+                this._red = _red;
+            }
+            set green(_green) {
+                this._green = _green;
+            }
+            set blue(_blue) {
+                this._blue = _blue;
+            }
+        }
+
+        // map the distance between the guessed number and the correct answer to the index of an array containing colors and words from red (hot) to blue (cold)        
+        const messageHotCold = ['extremely hot', 'very hot', 'hot', 'hot', 'warm', 'not warm, not fresh', 'fresh', 'cold', 'cold', 'very cold', 'extremely cold'];
+        let proximity = [];
+        let step = 1.0 / max;
+        for (let i = 0; i <= max; i++) {
+            let red = Math.floor(255 - i * step * 255);
+            let blue = Math.floor(i * step * 255);
+            let color = new Color(red, 0, blue);
+            proximity.push(color);
+        }
+
+
+
+        const displayDifficultyLevel = () => {
+            let difficultyLevel = 'easy';
+            let difficlultyLevels = document.getElementsByName('difficulty-level');
+            for (let element of difficlultyLevels) {
+                //console.log(element.value);
+                if (element.checked) {
+                    difficultyLevel = element.value;
+                }
+            }
+
+            console.log(difficultyLevel);
+
+            switch (difficultyLevel) {
+                case 'easy':
+                    max = 10;
+                    break;
+                case 'normal':
+                    max = 20;
+                    break;
+                case 'hard':
+                    max = 30;
+                    break;
+                default:
+                    break;
+            }
+            
+            let step = 1.0 / max;
+            for (let i = 0; i <= max; i++) {
+                let red = Math.floor(255 - i * step * 255);
+                let blue = Math.floor(i * step * 255);
+                let color = new Color(red, 0, blue);
+                proximity.push(color);
+            }
+
+            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('user-input-label').innerHTML = `Choose a number between ${min} and ${max}!`;
+        };
+
+        console.log(`min = ${min}`);
+        console.log(`max = ${max}`);
+        console.log(`randomNumber = ${randomNumber}`);
+
+
+        const successMessage = document.getElementById('success-message');
+        const failMessage = document.getElementById('fail-message');
+        const hintMessage = document.getElementById('hint-message');
+        const temperature = document.getElementById('temperature');
+
+        // initialize the counter
+        const counter = document.getElementById('counter');
+        let count = 0;
+        counter.innerHTML = `Number of attempts: ${count}`;
+
+        // control variable to check whether there is already a fail messsage
+        let isThereFailMessage = false;
+
+        const checkNumber = () => {
+
+            count += 1;
+            counter.innerHTML = `Number of attempts: ${count}`;
+
+            let userInput = document.getElementById('user-input');
+            let number = Number.parseInt(userInput.value);
+
+            //console.log(number);
+            //console.log(isThereFailMessage);
+
+            /*
+            if the guessed number is correct, check wether ther is already a fail message
+            if yes, hide it and display the success message
+            if not, you guessed correctly immediately, so just display the success message
+            disable the submit button to end the game
+            */
+
+            /* 
+            if the guessed number is wrong, check wether there is already a fail message
+            if yes, do nothing and display the hint message 
+            if not, display the fail message by removing the hidden class, remove the hidden class from the hint message and display the hint message
+            */
+
+            if (number === randomNumber) {
+                if (isThereFailMessage) {
+                    failMessage.classList.add('hidden')
+                    hintMessage.classList.add('hidden')
+                    temperature.classList.add('hidden')
+                    successMessage.classList.remove('hidden')
+                    successMessage.innerHTML = 'Success!';
+                } else {
+                    successMessage.classList.remove('hidden')
+                    successMessage.innerHTML = 'Success!';
+                }
+                let submitButton = document.getElementById('submit-button');
+                submitButton.classList.add('disabled');
+            } else {
+                if (!isThereFailMessage) {
+                    failMessage.classList.remove('hidden')
+                    hintMessage.classList.remove('hidden');
+                    failMessage.innerHTML = 'Epic fail! Not even close!';
+                    isThereFailMessage = true;
+                    //console.log(number, randomNumber);
+                }
+                // add a hint message
+                if (number < randomNumber) {
+                    hintMessage.innerHTML = 'The number is greater!';
+                } else {
+                    hintMessage.innerHTML = 'The number is smaller';
+                }
+                // calculate the distance between the guessed and correct answer and map it to a color and word 
+                let colorIndex = Math.abs(number - randomNumber);
+                let messageHotColdIndex = Math.floor(Math.abs(10 * (number - randomNumber) / max));
+                let red = proximity[colorIndex].red;
+                let blue = proximity[colorIndex].blue;
+                //console.log(messageHotColdIndex, max);
+                temperature.style.color = `rgb(${red},0,${blue})`;
+                temperature.innerHTML = messageHotCold[messageHotColdIndex];
+            }
+        };
+
+        //submitButton.onclick = checkNumber
+    </script>
+</body>
+
+</html>
