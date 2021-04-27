@@ -1,0 +1,14 @@
+{
+  'id' : '1',
+  'title' : 'The Beginning of the Story',
+  'content' : 'You can go right, left, straight ahead.'
+    'choices' : [
+      {
+        'content' : 'You go left.',
+        'target' : '2'
+      },
+    {
+
+    }
+    ]
+}
