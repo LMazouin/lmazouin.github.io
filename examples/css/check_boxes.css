@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "Classic Console" url("../fonts/clacon.ttf") format("tuetype");
+}
+
+
+html {
+  font-size: 64px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Classic Console", Times, serif;
+  background-color: #000; 
+}
+
+.container {
+  display: block;
+  position: relative;
+  font-size: 0.5rem;
+  padding-left: 0.5rem;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  color: #FFF;
+}
+
+/* hide the default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* our custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 0.5em;
+  height: 0.5em;
+  background-color: #000;
+  border: solid 0.25em #FFF;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: #0FF;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #FFF;
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.container input:checked ~ .checkmark::after {
+  display: block;
+}
+
+.container .checkmark::after {
+  position: absolute;
+  width: 0.5em;
+  height: 0.5em;
+  background-color: #FFF;
+}
