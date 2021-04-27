@@ -1,0 +1,40 @@
+[
+  {
+    "id" : 1,
+    "title" : "Le début de l'aventure",
+    "content" : "Contenu du premier chapitre... bla bla bla, vous arrivez à un croisement, vous pouvez aller, soit à a gauche, soit à droite, soit tout droit",
+    "choices": [
+      {
+        "content" : "Vous allez à gauche",
+        "target" : 2
+      },
+      {
+        "content" : "Vous allez tout droit",
+        "target" : 3
+      },
+      {
+        "content" : "Vous allez à droite",
+        "target" : 4
+      }
+    ]
+  },
+  {
+    "id" : 2,
+    "title" : "Le héros s'enfonce dans les profondeurs",
+    "content" : "Suivant vos opinions politiques, vous choisissez de partir à gauche toute, en commencez à entonner l'internationale pour vous donner du courage!, vous rencontrez un sombre magicien",
+    "choices": [
+      {
+        "content" : "Vous lui tapez sur la gueule",
+        "target" : 5
+      },
+      {
+        "content" : "Vous tentez de discuter avec lui",
+        "target" : 6
+      },
+      {
+        "content" : "Vous prenez la fuite",
+        "target" : 7
+      }
+    ]
+  }
+]
