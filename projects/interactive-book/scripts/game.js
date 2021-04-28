@@ -1,64 +1,60 @@
+// json stuff
 // const filePath = 'assets/story.json';
 const url = 'https://lmazouin.github.io/projects/interactive-book/assets/story.json';
 
-// fonction async qui permet de récupérer le contenu du l'histoire
 const getStory = async () => {
   // const data = await fetch(filePath);
   const data = await fetch(url);
   return await data.json();
 };
 
-// appel de la fonction
-getStory().then((story) => {
-  console.log(story);
-});
+// global DOM elements
+const sectionChapter = document.getElementById('chapter');
+const sectionChoices = document.getElementById('choices');
 
-// function to inject the html code
-const displayChapter = (title, content, choices) => {
-  const container = document.querySelector('#chapter-container');
-  // if there is already a chapter
-  // remove it and replace it with a new chapter
-  if (container.innerHTML) {
-    container.innerHTML = '';
-  }
-  // insert the new chapter
-  container.innerHTML = `<div class="card"></div>`;
-  console.log(container.children[0]);
-  container.children[0].innerHTML = `<h1 
-                                      class="card-title text-center">
-                                      ${title}
-                                     </h1>
-                                     <p class="card-text">${content}</p>`;
-  // insert the choice buttons
-  choices.forEach((choice) => {
-    const {content, target} = choice;
-    console.log(choice);
-    container.children[0].innerHTML += `<button 
-                                          class="btn btn-primary my-1"
-                                          onclick="getChapter(${target})">
-                                          ${content}
-                                        </button>`;
+const createChoiceButton = (section, choice, story) => {
+  const {content, target} = choice;
+  const button = document.createElement('button');
+  button.innerText = content;
+  button.className = 'btn btn-primary';
+  button.addEventListener('click', () => {
+    updatePage(target, story);
   });
+  section.appendChild(button);
+};
+
+const getChapterById = (story, chapterId) => {
+  return story.find((chapter) => chapter.id === chapterId);
+};
+
+
+const createChapter = (section, chapter) => {
+  const chapterTitle = document.createElement('h1');
+  const chapterContent = document.createElement('p');
+  const {title, content} = chapter;
+  chapterTitle.innerText = title;
+  chapterContent.innerText = content;
+  section.appendChild(chapterTitle);
+  section.appendChild(chapterContent);
 };
 
 
 // render chapter on the page
-const getChapter = (chapterId) => {
-  getStory().then((story) => {
-    story.forEach((chapter) => {
-      if (chapter.id === chapterId) {
-        const {title, content, choices} = chapter;
-        displayChapter(title, content, choices);
-      }
-    });
+const updatePage = (chapterId, story) => {
+  sectionChapter.innerHTML = '';
+  sectionChoices.innerHTML = '';
+  const chapter = getChapterById(story, chapterId);
+  createChapter(sectionChapter, chapter);
+  const {choices} = chapter;
+  choices.forEach((choice) => {
+    createChoiceButton(sectionChoices, choice, story);
   });
 };
 
-// show the first chapter
-const startAdventure = () => {
-  document.querySelector('#start-button').classList.add('hidden');
-  getChapter(1);
-};
+getStory().then((story) => {
+  console.log(story);
+  pdatePage(1, story);
+});
 
 
 /*
