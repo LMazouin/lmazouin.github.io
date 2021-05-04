@@ -1,0 +1,11 @@
+article {
+  width: 200px;
+}
+
+article img {
+  width: 200px;
+}
+
+article h5 {
+  text-transform: uppercase;
+}
