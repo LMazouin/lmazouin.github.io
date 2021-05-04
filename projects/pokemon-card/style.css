@@ -1,11 +1,17 @@
-article {
-  width: 200px;
+@font-face {
+  font-family: 'Classic Console' url('clacon.ttf') format('truetype');
 }
 
-article img {
-  width: 200px;
+
+html {
+  font-size: 24px;
 }
 
-article h5 {
+body {
+  font-family: 'Classic Console';
+}
+
+
+main article h5 {
   text-transform: uppercase;
 }
