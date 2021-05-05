@@ -8,7 +8,6 @@ const pathCharacter = '\x1b[33m\x1b[5m\x1b[1m*\x1b[0m';
 const oldPathCharacter = '\x1b[33m*\x1b[0m';
 
 const hatPosition = {x: 0, y: 0};
-
 // probability to tune the number of holes in the field
 const holeProbability = 20;
 
@@ -18,7 +17,7 @@ const playerMovements = {
   d: {dx: 0, dy: 1},
   u: {dx: 0, dy: -1},
 };
-    
+
 const directions = ['r', 'l', 'd', 'u'];
 const performedMoves = [];
 
@@ -73,6 +72,10 @@ const manhattanDistance = (positionA, positionB) => {
   return distanceX + distanceY;
 };
 
+const matrixGraph = (matrix, shape) => {
+  for (let i = 0; i <)
+};
+
 
 /**
  * represents a field
@@ -109,6 +112,9 @@ class Field {
    * @param{number} x - x coordinate of the player
    * @param{number} y - y coordinate of the player
    * @return{boolean}
+   */
+  /**
+   * returns a graph representation of the field
    */
   isInsideBoundaries(x, y) {
     if (x >= this._width || x < 0 || y >= this._height || y < 0) {
