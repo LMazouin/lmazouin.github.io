@@ -1,7 +1,7 @@
 // global variables
 
 const form = document.querySelector('form');
-const main = document.querySelector('main');
+const section = document.querySelector('main section');
 
 
 const typeColors = {
@@ -37,6 +37,12 @@ const getData = async () => {
     console.alert('Error:', error);
   }
 };
+
+
+// create a table
+const createTable = (labels, rows, cols) => {
+  
+  };
 
 // returns the pokemonName of a Pokémon
 const getNameOfPokemon = (data) => {
@@ -95,39 +101,51 @@ const createCardBody = (card, types) => {
 
 
 const createCard = (pokemonName, info, imageUrl) => {
-  const existingCard = document.querySelector('main article');
-  if (existingCard !== null) {
-    existingCard.remove();
-  }
   const card = document.createElement('article');
   card.classList.add('card', 'w-50', 'border-dark');
   createCardTitle(card, pokemonName);
   createCardImage(card, imageUrl, pokemonName);
   createCardBody(card, info);
-  main.appendChild(card);
+  section.appendChild(card);
 };
 
-form.addEventListener('submit', async (event) => {
+form.addEventListener('submit', (event) => {
+  const existingCard = document.querySelector('main article');
+  if (existingCard !== null) {
+    existingCard.remove();
+  }
+
   event.preventDefault();
   const searchInput = document.getElementById('input');
-  const searchedPokemon = searchInput.value.toLowerCase();
-  console.log(searchedPokemon);
+  const inputValue = searchInput.value.toLowerCase();
+  console.log(inputValue.split(','));
+  inputValue.split(',').forEach( async (searchedPokemon) => {
+    data = await fetchPokemon(searchedPokemon.trim());
+    console.log(data);
+    pokemonName = getNameOfPokemon(data);
+    types = getTypesOfPokemon(data);
+    imageUrl = getImageUrlOfPokemon(data);
+    createCard(pokemonName, types, imageUrl);
+  });
+});
+
+const fetchPokemon = async (searchedPokemon) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${searchedPokemon}`;
-  let data;
   try {
     const response = await fetch(url);
     if (response.ok) {
       const jsonResponse = response.json();
-      data = await jsonResponse;
-      console.log(data);
+      return jsonResponse;
+    } else if (response.status === 404) {
+      throw new Error('Invalid Pokémon name!');
     } else {
-      throw Error('invalid Pokémon name');
+      throw new Error('API not responding');
     }
   } catch (error) {
-    console.log('Error:', error);
+    console.log(error.message);
   }
-  pokemonName = getNameOfPokemon(data);
-  types = getTypesOfPokemon(data);
-  imageUrl = getImageUrlOfPokemon(data);
-  createCard(pokemonName, types, imageUrl);
-});
+};
+
+
+
+// dataset of html tags !!! 

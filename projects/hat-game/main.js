@@ -72,10 +72,6 @@ const manhattanDistance = (positionA, positionB) => {
   return distanceX + distanceY;
 };
 
-const matrixGraph = (matrix, shape) => {
-  for (let i = 0; i <)
-};
-
 
 /**
  * represents a field
@@ -113,9 +109,6 @@ class Field {
    * @param{number} y - y coordinate of the player
    * @return{boolean}
    */
-  /**
-   * returns a graph representation of the field
-   */
   isInsideBoundaries(x, y) {
     if (x >= this._width || x < 0 || y >= this._height || y < 0) {
       return false;
@@ -152,19 +145,54 @@ class Field {
     this._playerPosition.y = newY;
     this._matrix[y][x] = oldPathCharacter;
     this._matrix[newY][newX] = pathCharacter;
-    // console.log('OK! MOVE ON!');
     return 1;
   }
   /**
    * AI player function that finds the hat automatically
    */
+  autoMove() {
+    const matrix = this._matrix;
+    const {x, y} = this._playerPosition;
+    let oldDistance = manhattanDistance(this._playerPosition, hatPosition);
+    let countFailures = 0;
+    for (const direction of directions) {
+      const {dx, dy} = playerMovements[direction];
+      const newX = x + dx;
+      const newY = y + dy;
+      if (!this.isInsideBoundaries(newX, newY)) {
+        countFailures++;
+        continue;
+      }
+      if (matrix[newY][newX] === hole) {
+        countFailures++;
+        continue;
+      }
+      if (matrix[newY][newX] === hat) {
+        return 2;
+      }
+      this._playerPosition.x = newX;
+      this._playerPosition.y = newY;
+      const newDistance = manhattanDistance(this._playerPosition, hatPosition);
+      if (newDistance < oldDistance) {
+        this._matrix[y][x] = oldPathCharacter;
+        this._matrix[newY][newX] = pathCharacter;
+        oldDistance = newDistance;
+        return 1;
+      }
+    }
+    if (countFailures === directions.length) {
+      console.log('WE ARE STUCK ...');
+      return 0;
+    } else {
+      return 1;
+    }
+  }
   autoPlay(count, status) {
     // move in a direction and check if we do not lose
     // then check if the distance to the target has been decreased
     // if yes perform and save the move
     // try the same direction as long as the two conditions are met
-    // if choose the next direction and so on 
-    // maybe a path finding algoritm (like Dijkstra)
+    // if choose the next direction and so on
   }
   /**
    * prints a string representaion of the field
@@ -190,8 +218,8 @@ const matrix = [
   ['░', '^', '░'],
 ];
 
-const width = 20;
-const height = 30;
+const width = 10;
+const height = 15;
 
 const field = new Field(width, height);
 
@@ -202,9 +230,11 @@ let status = 1;
 
 while (status === 1) {
   console.log('\n');
-  const direction = prompt('YOUR MOVE! (r:right, l:left, d:down, u:up) ');
+  // const direction = prompt('YOUR MOVE! (r:right, l:left, d:down, u:up) ');
+  const out = prompt('HIT ENTER! ');
   console.clear();
-  status = field.move(direction);
+  // status = field.move(direction);
+  status = field.autoMove();
   field.print();
 
   const {playerPosition} = field;

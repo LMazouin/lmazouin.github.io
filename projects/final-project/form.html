@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Task Manager</title>
-   
+      
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
@@ -17,13 +17,15 @@
     <!-- Latest Compiled JavaScript -->
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 
+    <script src="./js/taskManager.js" defer></script>
+
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <nav class="col-3 navbar d-flex flex-column justify-content-center">
                 <ul class="navbar-nav h4 fixed-top ml-5 mt-5">
-                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="./index.html">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li>
                 </ul>
@@ -37,7 +39,7 @@
                 </header>
                 <main class="row mr-5" role="main">
                     <div class="col">
-                        <form action="" method="post">
+                        <form>
                             <div class="form-group">
                                 <label for="taskName">Name</label>
                                 <input type="text" name="taskName" id="taskName" placeholder="name of the task" class="form-control">

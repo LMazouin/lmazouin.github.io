@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Task Manager</title>
-   
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    
+
     <link rel="stylesheet" href="./css/style.css" title="" type="text/css">
 
     <!-- jQuery Library -->
@@ -17,111 +17,142 @@
     <!-- Latest Compiled JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-</head>
-<body>
+  </head>
+  <body>
     <div class="container-fluid">
-        <div class="row">
-            <nav class="col-3 nav flex-column align-items-start border h4">
-                <div class="fixed-top">
-                    <a class="nav-link active" href="#">Dashboard</a>
-                    <a class="nav-link" href="#">Calendar</a>
-                    <a class="nav-link disabled" href="#">Options</a>
-                </div>
-                <!-- <ul class="nav flex-column h4 fixed-top ml-5 mt-5 mr-auto"> -->
-                <!--     <li class="nav-item"><a class="nav-link border active" href="#">Dashboard</a></li> -->
-                <!--     <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li> -->
-                <!--     <li class="nav-item"><a class="nav-link disabled" href="#">Options</a></li> -->
-                <!-- </ul> -->
-            </nav>
-            <div class="col-9 d-flex flex-column align-items-center justify-conetnt-end">
-                <header class="row my-5">
-                    <div class="col d-flex flex-column align-items-center">
-                        <h1>Task Manager</h1>
-                        <h2>Dashboard</h2>
-                    </div>
-                </header>
-                <main class="row" role="main">
-                    <div class="col">
-                        <div class="row">
-
-                            <!-- empty space -->
-                            <div class="col-6 mb-3"></div>
-                            
-                            <!-- action dropdown button above the task cards -->
-                            <div class="col-2 dropdown mb-3">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownActionButton">
-                                    <a class="dropdown-item" href="#">Select All</a>
-                                    <a class="dropdown-item" href="#">Sort by Date</a>
-                                    <a class="dropdown-item" href="#">Sort by Name</a>
-                                </div>
-                            </div>
-                                
-                            <!-- the search bar above the task cards -->
-                            <div class="col-4 input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Search..." aria-label="search bar" aria-describedby="button-addon">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon">Go!</button>
-                                </div>
-                            </div> 
-                        </div>
-
-                        <!-- the task cards -->
-                        <article class="card shadow mb-3">
-                            <div class="card-header">
-                                <div class="row d-flex justify-content-start">
-                                    <div class="col-lg-2 col-md-2 d-flex justify-content-start align-items-center">
-                                        <div class="status-symbol">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5">
-                                        <h3 class="card-title">Task Name </h3>
-                                        <h4 class="card-subtitle text-muted h5">Assigned to John Walker</h4>      
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 d-flex justify-content-end align-items-start">
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Status
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownStatusButton">
-                                                <a class="dropdown-item" href="#">todo</a>
-                                                <a class="dropdown-item" href="#">in progress</a>
-                                                <a class="dropdown-item" href="#">review</a>
-                                                <a class="dropdown-item" href="#">done</a>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="pencil-icon ml-3"></a>
-                                        <a href="#" class="trash-icon ml-3"></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pb-0">
-                                <p class="card-text">description of the task</p>
-                                <div class="d-flex justify-content-between">
-                                    <p class="card-text">Due Date: 12/04/2021</p>
-                                    <p class="card-text">Status: <strong class="text-danger">in progress</strong></p>
-                                </div>
-                            </div>
-                        </article>
-                       
-                        
-                        <!-- the plus button to add a new task -->
-                        <a href="./form.html">
-                            <div class="card shadow mb-5">
-                                <div class="card-body d-flex justify-content-start align-items-center">
-                                    <span class="plus-icon"></span>
-                                    <p class="card-text text-center mx-auto">Add new task!</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </main>
-                <footer class="row">
-                </footer>
+      <div class="row">
+        <nav class="col-3 nav flex-column align-items-start border h4">
+          <div class="fixed-top">
+            <a class="nav-link active" href="#">Dashboard</a>
+            <a class="nav-link" href="#">Calendar</a>
+            <a class="nav-link disabled" href="#">Options</a>
+          </div>
+        </nav>
+        <div class="col-9 d-flex flex-column align-items-center justify-conetnt-end">
+          <header class="row my-5">
+            <div class="col d-flex flex-column align-items-center">
+              <h1>Task Manager</h1>
+              <h2>Dashboard</h2>
             </div>
+          </header>
+          <main class="row" role="main">
+            <div class="col">
+              <div class="row">
+
+                <!-- empty space -->
+                <div class="col-6 mb-3"></div>
+
+                <!-- action dropdown button above the task cards -->
+                <div class="col-2 dropdown mb-3">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Action
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownActionButton">
+                    <a class="dropdown-item" href="#">Select All</a>
+                    <a class="dropdown-item" href="#">Sort by Date</a>
+                    <a class="dropdown-item" href="#">Sort by Name</a>
+                  </div>
+                </div>
+
+                <!-- the search bar above the task cards -->
+                <div class="col-4 input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Search..." aria-label="search bar" aria-describedby="button-addon">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon">Go!</button>
+                  </div>
+                </div> 
+              </div>
+
+              <!-- the task cards -->
+              <article class="card shadow mb-3">
+                <div class="card-header">
+                  <div class="row d-flex justify-content-start">
+                    <div class="col-lg-2 col-md-2 d-flex justify-content-start align-items-center">
+                      <div class="status-symbol">
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                      <h3 class="card-title">Task Name </h3>
+                      <h4 class="card-subtitle text-muted h5">Assigned to John Walker</h4>      
+                    </div>
+                    <div class="col-lg-5 col-md-5 d-flex justify-content-end align-items-start">
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Status
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownStatusButton">
+                          <a class="dropdown-item" href="#">todo</a>
+                          <a class="dropdown-item" href="#">in progress</a>
+                          <a class="dropdown-item" href="#">review</a>
+                          <a class="dropdown-item" href="#">done</a>
+                        </div>
+                      </div>
+                      <a href="#" class="pencil-icon ml-3"></a>
+                      <a href="#" class="trash-icon ml-3"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body pb-0">
+                  <p class="card-text">description of the task</p>
+                  <div class="d-flex justify-content-between">
+                    <p class="card-text">Due Date: 12/04/2021</p>
+                    <p class="card-text">Status: <strong class="text-danger">in progress</strong></p>
+                  </div>
+                </div>
+              </article>
+
+              <!-- the plus button to add a new task -->
+              <div class="card shadow mb-5">
+                <div class="card-body d-flex justify-content-start align-items-center">
+                  <button type="button" class="plus-icon btn" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+                  
+
+
+
+                  <p class="card-text text-center mx-auto">Add new task!</p>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="modal-body">
+                  <div class="form-group">
+                    <label for="taskName">Name</label>
+                    <input type="text" name="taskName" id="taskName" placeholder="name of the task" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="assignedTo">Assigned to</label>
+                    <input type="text" name="assignedTo" id="assignedTo" placeholder="John Walker" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" name="dueDate" id="dueDate" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea name="taskDescription" id="taskDescription" placeholder="short description of te task" class="form-control" rows=3></textarea>
+                  </div>
+              </form>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
         </div>
+        <footer class="row">
+        </footer>
+      </div>
     </div>
-</body>
+    </div>
+  </body>
 </html>
