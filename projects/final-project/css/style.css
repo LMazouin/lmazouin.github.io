@@ -1,6 +1,9 @@
 html {
 }
 
+#tasks-section {
+  margin-left: 25%;
+}
 
 .status-symbol {
     width: 50px;

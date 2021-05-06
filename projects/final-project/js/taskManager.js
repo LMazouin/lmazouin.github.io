@@ -27,12 +27,43 @@ const getTaskDescription = () => {
 };
 
 form.addEventListener('submit', (event) => {
-  event.preventDefault(); 
+  event.preventDefault();
 });
 
-class TaskManager() {
-  constructor() {
-
+/**
+ * represents a task manager
+ */
+class TaskManager {
+  /**
+   * initializes a table containing the tasks and the current id
+   * @param{number} currentId - the id that keeps track of the current task
+   */
+  constructor(currentId) {
+    this._tasks = [];
+    this._currentId = currentId;
   }
-
+  /**
+   * returns the table containg the tasks
+   * @return{array}
+   */
+  get task() {
+    return this._tasks;
+  }
+  /**
+   * returns the current id
+   * @return{number}
+   */
+  get currentId() {
+    return this._currentId;
+  }
+  /**
+   * adds a task to the table containg the tasks
+   * @param{object} task
+   */
+  addTask(task) {
+    this._task.push(task);
+    this._currentId++;
+  }
 }
+
+taskManager = new TaskManager();
