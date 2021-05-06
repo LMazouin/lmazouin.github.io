@@ -5,12 +5,12 @@ const hat = '\x1b[33m\x1b[1m^\x1b[0m';
 const hole = 'O';
 const fieldCharacter = '\x1b[32m░\x1b[0m';
 const pathCharacter = '\x1b[33m\x1b[5m\x1b[1m*\x1b[0m';
-const oldPathCharacter = '\x1b[34m*\x1b[0m';
-const visitedPathCharacter = '\x1b[31m*\x1b[0m';
+const oldPathCharacter = '\x1b[33m*\x1b[0m';
+const tracedPathCharacter = '\x1b[34m*\x1b[0m';
+const burntPathCharacter = '\x1b[31m*\x1b[0m';
 
-const hatPosition = {x: 0, y: 0};
-// probability to tune the number of holes in the field
-const holeProbability = 20;
+// hole density
+const holeProbability = 0.3;
 
 const playerMovements = {
 	r: {dx: 1, dy: 0},
@@ -29,7 +29,7 @@ const oppositeDirections = {
 const performedMoves = [];
 
 /**
- * returns a random number
+ * returns an integer random number
  * @param{number} min
  * @param{number} max
  * @return{number}
@@ -49,32 +49,12 @@ const createFieldMatrix = (width, height) => {
 	for (let i = 0; i < height; i++) {
 		const row = [];
 		for (let j = 0; j < width; j++) {
-			const random = getRandomNumber(1, 100);
+			const random = Math.random();
 			if (random <= holeProbability) {
 				row.push(hole);
 			} else {
 				row.push(fieldCharacter);
 			}
-		}
-		matrix.push(row);
-	}
-	// put the hat a random location in the field
-	const randomX = getRandomNumber(0, width);
-	const randomY = getRandomNumber(0, height);
-	matrix[randomY][randomX] = hat;
-	hatPosition.x = randomX;
-	hatPosition.y = randomY;
-	// put the the beginning of the path at (0, 0)
-	matrix[0][0] = pathCharacter;
-	return matrix;
-};
-
-const createVisitedMatrix = (width, height) => {
-	const matrix = [];
-	for (let i = 0; i < height; i++) {
-		const row = [];
-		for (let j = 0; j < width; j++) {
-			row.push(0);
 		}
 		matrix.push(row);
 	}
@@ -91,6 +71,31 @@ const manhattanDistance = (positionA, positionB) => {
 	return distanceX + distanceY;
 };
 
+
+const createVisitedMatrix = (width, height) => {
+	const matrix = [];
+	for (let i = 0; i < height; i++) {
+		const row = [];
+		for (let j = 0; j < width; j++) {
+			row.push(0);
+		}
+		matrix.push(row);
+	}
+	return matrix;
+};
+
+const createDistanceMatrix = (width, height) => {
+	const matrix = [];
+	for (let i = 0; i < height; i++) {
+		const row = [];
+		for (let j = 0; j < width; j++) {
+			row.push(-1);
+		}
+		matrix.push(row);
+	}
+	return matrix;
+
+};
 
 /**
  * represents a field
@@ -113,9 +118,10 @@ class Field {
 		this._width = width;
 		this._height = height;
 		this._matrix = createFieldMatrix(width, height);
-		this._visitedMatrix = createVisitedMatrix(width, height);
-		this._previousMove = '';
+		this._cells = [];
+		this._distanceMatrix = createDistanceMatrix(width, height);
 		this._playerPosition = {x: 0, y: 0};
+		this._hatPosition = {x: 0, y: 0};
 	}
 	/**
    * returns the player's position
@@ -125,7 +131,97 @@ class Field {
 		return this._playerPosition;
 	}
 	/**
-   * determines whether it is possible to move or not
+   * creates list of all cells of the matrix
+   */
+	createCells() {
+		for (let i = 0; i < this._height; i++) {
+			for (let j = 0; j < this._width; j++) {
+				const cell = {x: j, y: i};
+				this._cells.push(cell);
+			}
+		} 
+	}
+	/**
+   * initializes game
+   */
+	init() {
+		this._matrix.forEach((row) => {
+			row.map((col) => {
+				if (col === pathCharacter || col === oldPathCharacter ||
+              col === hat) {
+					return fieldCharacter;
+				}
+			});
+		});
+		let validPlayerPosition = false;
+		while (!validPlayerPosition) {
+			const randomX = getRandomNumber(0, this._width); 
+			const randomY = getRandomNumber(0, this._height);
+			if (!this.detectHole(randomX, randomY)) {
+				validPlayerPosition = true;
+				matrix[randomY][randomX] = pathCharacter;
+			}
+		}
+		let validHatPosition = false;
+		while (!validHatPosition) {
+			const randomX = getRandomNumber(0, this._width); 
+			const randomY = getRandomNumber(0, this._height);
+			if (!this.detectHole(randomX, randomY) && 
+      matrix[randomY][randomX] !== pathCharacter) {
+				validHatPosition = true;
+				matrix[randomY][randomX] = hat;
+			}
+		}
+	}
+	/**
+   * checks whether the adjacent cells they are holes or the starting point
+   */
+	checkAdjacentCells(x, y, currentDistance) {
+		const adjacentCells = [ 
+			{x: x+1, y: y}, 
+			{x: x-1, y: y},
+			{x: x, y: y+1},
+			{x: x, y: y-1},
+		];
+		let updatedCells = 0;
+		for (const cell of adjacentCells) {
+			const {x, y} = cell;
+			if (!this.isWithinBoundaries(x, y)) {
+				continue;
+			} else if (this._matrix[y][x] === pathCharacter) {
+				return 2;
+			} else if (this.canMove(x, y) || 
+      this._distanceMatrix[y][x] > currentDistance + 1) {
+				this._distanceMatrix[y][x] = currentDistance + 1;
+				this._matrix[y][x] = burntPathCharacter;
+			}
+			updatedCells++;
+		}
+		return updatedCells;
+	}
+	/**
+   * backtraces the path from the initial pplayer position to the hat
+   */
+	backtracePath(x, y, currentDistance) {
+		const adjacentCells = [ 
+			{x: x+1, y: y}, 
+			{x: x-1, y: y},
+			{x: x, y: y+1},
+			{x: x, y: y-1},
+		];
+		for (const cell of adjacentCells) {
+			const {x, y} = cell;
+			if (!this.isWithinBoundaries(x, y)) {
+				continue;
+			} else if (this._distanceMatrix[y][x] === currentDistance) {
+				this._matrix[y][x] = tracedPathCharacter; 
+				return cell;
+			}
+		}
+    
+	}
+	/**
+   * determines whether the player is within the boundaries or not
    * @param{number} x - x coordinate of the player
    * @param{number} y - y coordinate of the player
    * @return{boolean}
@@ -133,8 +229,31 @@ class Field {
 	isWithinBoundaries(x, y) {
 		if (x >= this._width || x < 0 || y >= this._height || y < 0) {
 			return false;
+		} else {
+			return true;  
 		}
-		return true;
+	}
+	/**
+   * determines whether there is a hole or not
+   * @param{number} x - x coordinate of the player
+   * @param{number} y - y coordinate of the player
+   * @return{boolean}
+   */
+	detectHole(x, y) {
+		return (this._matrix[y][x] === hole) ? true : false;
+	}
+	/**
+   * determines whether the player can move or not
+   * @param{number} x - x coordinate of the player
+   * @param{number} y - y coordinate of the player
+   * @return{boolean}
+   */
+	canMove(x, y) {
+		if (!this.isWithinBoundaries(x, y) || this.detectHole(x, y)){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	/**
    * moves the player to the right
@@ -150,11 +269,7 @@ class Field {
 		const {dx, dy} = playerMovements[direction];
 		const newX = x + dx;
 		const newY = y + dy;
-		if (!this.isWithinBoundaries(newX, newY)) {
-			// console.log('CANNOT MOVE OUT OF THE FIELD !!!');
-			return 0;
-		}
-		if (matrix[newY][newX] === hole) {
+		if (!this.canMove(newX, newY)) {
 			// console.log('YOU FELL INTO A HOLE !!!');
 			return 0;
 		}
@@ -171,15 +286,6 @@ class Field {
 	/**
    * AI player function that finds the hat automatically
    */
-	canMove(x, y) {
-		if (!this.isWithinBoundaries(y, x) || 
-    this._matrix[y][x] === hole || 
-    this._visitedMatrix[x][y] > 1) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 	isVisitedOnce(x, y) {
 		if (this._visitedMatrix[x][y] === 1) {
 			return true;
@@ -188,72 +294,16 @@ class Field {
 		}
 	}
 	autoMove() {
-		// check where we can move
-		const {x, y} = this._playerPosition;
-		const directions = []; 
-		// go right?
-		if (this.canMove(x+1, y)) {
-			directions.push('r');
-		}
-		// go left?
-		if (this.canMove(x-1, y)) {
-			directions.push('l');
-		}
-		// go down?
-		if (this.canMove(x, y+1)) {
-			directions.push('d');
-		}
-		// go up?
-		if (this.canMove(x, y-1)) {
-			directions.push('u');
-		}
-		if (directions.length === 0) {
-			console.log('LOOKS LIKE WE ARE STUCK...');
-			return 0;
-		}
-		let randomDirection = '';	
-		const newDirections = [];
-		if (directions.length > 1) {
-      
-			directions.forEach((direction) => {
-				const {dx, dy} = playerMovements[direction];
-				const newX = x + dx;
-				const newY = y + dy;
-				if (!this.isVisitedOnce(newX, newY)) {
-					newDirections.push(direction);
-				} 
-			});
-			if (newDirections.length === 0) {
-				const random = getRandomNumber(0, directions.length);
-				randomDirection = directions[random];
-			} else {
-				const random = getRandomNumber(0, newDirections.length);
-				randomDirection = newDirections[random];
-			}
-		} else {
-			randomDirection = directions[0];
-		}
-		
-		this._previousMove = randomDirection; 
-
-		const {dx, dy} = playerMovements[randomDirection];
-		const newX = x + dx;
-		const newY = y + dy;
-		// check if we reached the hat
-		if (this._matrix[newY][newX] === hat) {
-			return 2;
-		}
-		this._playerPosition.x = newX;
-		this._playerPosition.y = newY;
-		this._matrix[y][x] = oldPathCharacter;
-		this._matrix[newY][newX] = pathCharacter;
-		this._visitedMatrix[x][y]++;
-		if (this._visitedMatrix[x][y] === 2) {
-			this._matrix[y][x] = visitedPathCharacter;
-		}
-		return 1;
 	}
 	autoPlay() {
+	}
+	grassfireAlgorithm() {
+		const distance = 0;
+		let playerFound = false;
+		let noPath = false;
+		for (const cell of this._cells) {
+			const modifiedCells = 0; 
+		}
 	}
 	/**
    * prints a string representation of the field
@@ -284,7 +334,7 @@ const height = 15;
 
 const field = new Field(width, height);
 
-console.clear();
+// console.clear();
 field.print();
 
 let status = 1;
