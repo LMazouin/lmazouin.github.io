@@ -1,3 +1,8 @@
+//import PromptSync from 'prompt-sync';
+//const prompt = PromptSync({sigint: true});
+
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
 const prompt = require('prompt-sync')({sigint: true});
 
 // global variables
@@ -10,7 +15,7 @@ const tracedPathCharacter = '\x1b[34m*\x1b[0m';
 const burntPathCharacter = '\x1b[31m*\x1b[0m';
 
 // hole density
-const holeProbability = 0.3;
+const holeProbability = 0.4;
 
 const playerMovements = {
 	r: {dx: 1, dy: 0},
@@ -118,10 +123,10 @@ class Field {
 		this._width = width;
 		this._height = height;
 		this._matrix = createFieldMatrix(width, height);
-		this._cells = [];
 		this._distanceMatrix = createDistanceMatrix(width, height);
 		this._playerPosition = {x: 0, y: 0};
 		this._hatPosition = {x: 0, y: 0};
+		this._distance = 0;
 	}
 	/**
    * returns the player's position
@@ -131,15 +136,27 @@ class Field {
 		return this._playerPosition;
 	}
 	/**
-   * creates list of all cells of the matrix
+   * returns the position of the hat
    */
-	createCells() {
+	get hatPosition() {
+		return this._hatPosition;
+	}
+	/**
+   * creates list of cells with a certain distance
+   */
+	createMatchingCells(distance) {
+		const matchingCells = [];
 		for (let i = 0; i < this._height; i++) {
 			for (let j = 0; j < this._width; j++) {
-				const cell = {x: j, y: i};
-				this._cells.push(cell);
-			}
-		} 
+				if (this._distanceMatrix[i][j] === distance) {
+					const cell = {x: j, y: i};
+					matchingCells.push(cell);
+				} else {
+					continue;
+				}
+			} 
+		}
+		return matchingCells;
 	}
 	/**
    * initializes game
@@ -159,7 +176,9 @@ class Field {
 			const randomY = getRandomNumber(0, this._height);
 			if (!this.detectHole(randomX, randomY)) {
 				validPlayerPosition = true;
-				matrix[randomY][randomX] = pathCharacter;
+				this._matrix[randomY][randomX] = pathCharacter;
+				this._playerPosition.x = randomX;
+				this._playerPosition.y = randomY;
 			}
 		}
 		let validHatPosition = false;
@@ -167,9 +186,12 @@ class Field {
 			const randomX = getRandomNumber(0, this._width); 
 			const randomY = getRandomNumber(0, this._height);
 			if (!this.detectHole(randomX, randomY) && 
-      matrix[randomY][randomX] !== pathCharacter) {
+      this._matrix[randomY][randomX] !== pathCharacter) {
 				validHatPosition = true;
-				matrix[randomY][randomX] = hat;
+				this._matrix[randomY][randomX] = hat;
+				this._distanceMatrix[randomY][randomX] = 0;
+				this._hatPosition.x = randomX;
+				this._hatPosition.y = randomY;
 			}
 		}
 	}
@@ -183,14 +205,15 @@ class Field {
 			{x: x, y: y+1},
 			{x: x, y: y-1},
 		];
+		//console.table(adjacentCells);
 		let updatedCells = 0;
 		for (const cell of adjacentCells) {
 			const {x, y} = cell;
 			if (!this.isWithinBoundaries(x, y)) {
 				continue;
 			} else if (this._matrix[y][x] === pathCharacter) {
-				return 2;
-			} else if (this.canMove(x, y) || 
+				return pathCharacter;
+			} else if (this._matrix[y][x] === fieldCharacter || 
       this._distanceMatrix[y][x] > currentDistance + 1) {
 				this._distanceMatrix[y][x] = currentDistance + 1;
 				this._matrix[y][x] = burntPathCharacter;
@@ -297,12 +320,57 @@ class Field {
 	}
 	autoPlay() {
 	}
-	grassfireAlgorithm() {
-		const distance = 0;
+	async grassfireAlgorithm() {
+
+		
+		// console.log(this._distance);
+		// console.table(matchingCells);
+
 		let playerFound = false;
 		let noPath = false;
-		for (const cell of this._cells) {
-			const modifiedCells = 0; 
+	
+		while (!playerFound && !noPath) {
+
+			const matchingCells = this.createMatchingCells(this._distance);
+			let modifiedCells = 0;
+			for (const cell of matchingCells) {
+				const {x, y} = cell;
+				const adjacentCells = this.checkAdjacentCells(x, y, this._distance);
+				
+				// console.clear();
+				// this.print();
+				
+				if (adjacentCells === pathCharacter) {
+					playerFound = true;
+					break;
+				} else {
+					modifiedCells += adjacentCells;
+				}
+			}
+
+			if (modifiedCells === 0) {
+				noPath = true;
+				this.print();
+				return 0;
+			} else if (!playerFound) {
+				this._distance++;
+			}
+		}
+		if (playerFound) {
+			let x = this._playerPosition.x;
+			let y = this._playerPosition.y;
+			while (this._distance > 0) {
+				const nextCell = this.backtracePath(x, y, this._distance);
+				x = nextCell.x;
+				y = nextCell.y;
+				this._distance--;
+				
+				await timer(500);
+				console.clear();
+				this.print();
+
+			}
+			return 2;
 		}
 	}
 	/**
@@ -318,6 +386,7 @@ class Field {
 			str += '\n';
 		});
 		console.log(str);
+		
 	}
 }
 
@@ -329,31 +398,34 @@ const matrix = [
 	['░', '^', '░'],
 ];
 
-const width = 10;
-const height = 15;
+const width = 50;
+const height = 40;
 
 const field = new Field(width, height);
 
 // console.clear();
+field.init();
 field.print();
 
 let status = 1;
 
-while (status === 1) {
-	console.log('\n');
-	// const direction = prompt('YOUR MOVE! (r:right, l:left, d:down, u:up) ');
-	const out = prompt('HIT ENTER! ');
-	console.clear();
-	// status = field.move(direction);
-	status = field.autoMove();
-	field.print();
+field.grassfireAlgorithm();
 
-	const {playerPosition} = field;
-	const distance = manhattanDistance(playerPosition, hatPosition);
-	console.log(`\nDISTANCE TO TARGET : ${distance}\n`);
-}
-if (status === 0) {
-	console.log('GAME OVER');
-} else if (status === 2) {
-	console.log('SUCCESS');
-}
+//while (status === 1) {
+//	console.log('\n');
+//	// const direction = prompt('YOUR MOVE! (r:right, l:left, d:down, u:up) ');
+//	const out = prompt('HIT ENTER! ');
+//	// console.clear();
+//	//status = field.move(direction);
+//	field.grassfireAlgorithm();
+//	// field.print();
+
+//	const {playerPosition, hatPosition} = field;
+//	const distance = manhattanDistance(playerPosition, hatPosition);
+//	console.log(`\nDISTANCE TO TARGET : ${distance}\n`);
+//}
+//if (status === 0) {
+//	console.log('GAME OVER');
+//} else if (status === 2) {
+//	console.log('SUCCESS');
+//}
