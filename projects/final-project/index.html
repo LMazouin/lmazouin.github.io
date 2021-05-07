@@ -11,6 +11,7 @@
     <!-- my custom CSS -->
     <link rel="stylesheet" href="./css/style.css" title="" type="text/css">
 
+    <script type="text/javascript" src="/Users/lmazouin/Documents/wf3/portfolio/node_modules/validator/validator.min.js"></script>
     <!-- my scripts --> 
     <script src="./js/taskManager.js" defer></script>
     <script src="./js/index.js" defer></script>
@@ -24,7 +25,7 @@
 
   </head>
   <body>
-
+ 
     <!-- Modal -->
     <div class="modal fade" id="popup-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -34,21 +35,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-          <form>
+          <form class="needs-validation" autocomplete="off" novalidate>
             <main class="modal-body">
-              <div class="form-group">
+              <div class="form-group" data-id="task-name">
                 <label for="task-name">Name</label>
                 <input type="text" name="task-name" id="task-name" placeholder="name of the task" class="form-control" data-type="text">
               </div>
-              <div class="form-group">
+              <div class="form-group" data-id="assigned-to">
                 <label for="assigned-to">Assigned to</label>
                 <input type="text" name="assigned-to" id="assigned-to" placeholder="John Walker" class="form-control" data-type="name">
               </div>
-              <div class="form-group">
+              <div class="form-group" data-id="due-date">
                 <label for="due-date">Due Date</label>
                 <input type="date" name="due-date" id="due-date" class="form-control" data-type="date-after">
               </div>
-              <div class="form-group">
+              <div class="form-group" data-id="task-description">
                 <label for="task-description">Description</label>
                 <textarea name="task-description" id="task-description" placeholder="short description of te task" class="form-control" rows=3 data-type="text"></textarea>
               </div>
@@ -116,16 +117,16 @@
                   <h3 class="card-title">Task Name </h3>
                   <h4 class="card-subtitle text-muted h5">Assigned to John Walker</h4>      
                 </div>
-                <div id="card-buttons">
+                <div id="card-buttons" >
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-task-id="0">
                       Status
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownStatusButton">
-                      <a class="dropdown-item" href="#">todo</a>
+                    <div id="dropdown-status-button" class="dropdown-menu" aria-labelledby="dropdownStatusButton" data-task-id="0">
+                      <a class="dropdown-item" href="#">to do</a>
                       <a class="dropdown-item" href="#">in progress</a>
                       <a class="dropdown-item" href="#">review</a>
-                      <a class="dropdown-item" href="#">done</a>
+                      <a class="dropdown-item done-button" href="#">done</a>
                     </div>
                     <a href="#" class="pencil-icon ml-3"></a>
                     <a href="#" class="trash-icon ml-3"></a>
