@@ -29,7 +29,9 @@ class TaskManager {
    * @param{object} task
    */
 	addTask(name, description, assignedTo, dueDate, status = 'TODO') {
+		this._currentId++;
 		const task = {
+			id: this._currentId,
 			name, 
 			description, 
 			assignedTo, 
@@ -37,9 +39,8 @@ class TaskManager {
 			status
 		};
 		this._tasks.push(task);
-		this._currentId++;
 	}
-	addTaskHTML(name, description, assignedTo, dueDate, status) {
+	addTaskHTML(name, description, assignedTo, dueDate, status, id) {
 		const html = `<article class="card shadow mb-3">
                     <header class="card-header d-flex justify-content-between">
                       <figure class="status-symbol"></figure>
@@ -49,14 +50,14 @@ class TaskManager {
                       </div>
                       <div id="card-buttons">
                         <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownStatusButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-task-id="${id}">
                             Status
                           </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownStatusButton">
-                            <a class="dropdown-item" href="#">todo</a>
-                            <a class="dropdown-item" href="#">in progress</a>
-                            <a class="dropdown-item" href="#">review</a>
-                            <a class="dropdown-item" href="#">done</a>
+                          <div id="dropdown-status-button" class="dropdown-menu" aria-labelledby="dropdownStatusButton" data-task-id="${id}">
+                            <a class="dropdown-item">todo</a>
+                            <a class="dropdown-item">in progress</a>
+                            <a class="dropdown-item">review</a>
+                            <a class="dropdown-item done-button">done</a>
                           </div>
                           <a href="#" class="pencil-icon ml-3"></a>
                           <a href="#" class="trash-icon ml-3"></a>
@@ -76,10 +77,10 @@ class TaskManager {
 	render() {
 		const tasksListHTML = [];
 		this._tasks.forEach((task) => {
-			const {name, description, assignedTo, dueDate, status} = task; 
+			const {name, description, assignedTo, dueDate, status, id} = task; 
 			const date = new Date(dueDate);
 			const formattedDate = date.toDateString();
-			const taskHTML = this.addTaskHTML(name, description, assignedTo, formattedDate, status);
+			const taskHTML = this.addTaskHTML(name, description, assignedTo, formattedDate, status, id);
 			tasksListHTML.push(taskHTML);
 		});
 		const tasksHTML = tasksListHTML.join('\n');

@@ -83,7 +83,7 @@ form.addEventListener('submit', (event) => {
 	console.log(checkValidity(inputList));
 
 	if (!checkValidity(inputList)) {
-		event.stopPropagation();
+		// event.stopPropagation();
 		displayErrorMessage(inputList);
 	} else {
       
@@ -119,3 +119,31 @@ form.addEventListener('submit', (event) => {
 
 });
 
+const statusButtons = document.querySelectorAll('#dropdown-status-button');
+
+const tasksList = document.querySelector('#task-cards-section');
+
+tasksList.addEventListener('click', (event) => {
+	event.target.classList.forEach((cls) => {
+		if (cls === 'dropdown-toggle') {
+			console.log(cls);
+		}
+	});
+	console.log(event.target.dataset);
+	const taskId = event.target.dataset.taskId;
+	console.log(`The DROPDOWN BUTTON of task ${taskId} has been clicked!`);
+  
+});
+
+statusButtons.forEach((statusButton) => {
+	statusButton.addEventListener('click', (event) => {
+		event.target.classList.forEach((cls) => {
+			if (cls === 'done-button') {
+				console.log(cls);
+			}
+		});
+		console.log(event.target.parentElement);
+		const taskId = event.target.parentElement.dataset.taskId;
+		console.log(`The status DONE of task ${taskId} has been clicked!`);
+	});
+});
