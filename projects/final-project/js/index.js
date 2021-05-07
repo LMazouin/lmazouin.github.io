@@ -1,4 +1,5 @@
-// moduleimport validator from 'validator';
+// module
+// import validator from 'validator';
 
 // global variables
 const form = document.querySelector('form');
@@ -27,52 +28,45 @@ const getInputValues = (inputField) => {
 	return input;
 };
 
+// check the validity of all input fields
+// returns false as soon as one is invalid
+const checkValidity = (inputList) => {
+	let valid = true;
+	let i = 0;
+	while (valid && i < inputList.length) {
+		if (inputList[i].valid) {
+			valid = true;
+			i++;
+		} else {
+			valid = false;
+			return valid;
+		}
+	}
+	return true;
+}; 
+
+// displays an error message below the input fields
+const displayErrorMessage = (inputList) => {
+	inputList.forEach((input) => {
+		const {id} = input;
+		const inputFieldGroup = document.querySelector(`#popup-form div[data-id=${id}]`);
+		const div = document.createElement('div');
+		if (!input.valid) {
+			document.querySelector(`#popup-form div[data-id=${id}] div`)?.remove();
+			div.className = 'invalid-feedback';
+			div.innerText = 'This looks suspicious...';
+		} else {
+			document.querySelector(`#popup-form div[data-id=${id}] div`)?.remove();
+			div.className = 'valid-feedback';
+			div.innerText = 'Looks OK!';
+		} 
+		div.style.display = 'block';
+		inputFieldGroup.appendChild(div);
+	});
+};
+
 // create a task manager object
 const taskManager = new TaskManager();
-
-const getTaskName = () => {
-	const taskNameInput = document.getElementById('task-name');
-	const taskName = taskNameInput.value;
-	if (validator.isAlphanumeric(taskName)) {
-		taskNameInput.value = '';
-		return taskName;
-	} else {
-		return false;
-	}
-};
-
-const getAssignedTo = () => {
-	const assignedToInput = document.getElementById('assigned-to');
-	const assignedTo = assignedToInput.value;
-	if (validator.isAlpha(assignedTo)) {
-		assignedToInput.value = '';
-		return assignedTo;
-	} else {
-		return false;
-	}
-};
-
-const getDueDate = () => {
-	const dueDateInput = document.getElementById('due-date');
-	const dueDate = dueDateInput.value;
-	if (validator.isAfter(dueDate)) {
-		dueDateInput.value = '';
-		return dueDate;
-	} else {
-		return false;
-	}
-};
-
-const getTaskDescription = () => {
-	const taskDescriptionInput = document.getElementById('task-description');
-	const taskDescription = taskDescriptionInput.value;
-	if (validator.isAlphanumeric(taskDescription)) {
-		taskDescription.value = '';
-		return taskDescription;
-	} else {
-		return false;
-	}
-};
 
 form.addEventListener('submit', (event) => {
 	event.preventDefault();
@@ -80,25 +74,48 @@ form.addEventListener('submit', (event) => {
 	// console.log('hello');
     
 	const inputList = [];
-	document.querySelector('#popup-form input').forEach((input) => {
+	document.querySelectorAll('#popup-form .form-control').forEach((inputField) => {
+		const input = getInputValues(inputField);
 		inputList.push(input);
 	});
 
-	const name = inputList.find((input) => input.id === 'task-name');
-	const assignedTo = inputList.find((input) => input.id === 'assigned-to');
-	const dueDate = inputList.find((input) => input.id === 'due-date');
-	const description = inputList.find((input) => input.id === 'task-description');
+	console.log(inputList);
+	console.log(checkValidity(inputList));
 
-	console.log(name);
-	console.log(assignedTo);
-	console.log(dueDate);
-	console.log(description);
+	if (!checkValidity(inputList)) {
+		event.stopPropagation();
+		displayErrorMessage(inputList);
+	} else {
+      
+    
+		document.querySelectorAll('#popup-form .form-group div').forEach((element) => {
+			element.remove();
+		});
+		document.querySelectorAll('#popup-form .form-control').forEach((inputField) => {
+			inputField.value = '';
+		});
 
-	taskManager.addTask(name, description, assignedTo, dueDate);
+		// document.querySelector('.modal-body').innerHTML = `<div class="alert alert-success" role="alert">
+		// SUCCESS !
+		// </div>`;
+
+		const name = inputList[0].content;
+		const assignedTo = inputList[1].content;
+		const dueDate = inputList[2].content;
+		const description = inputList[3].content;
   
-	console.log(taskManager.tasks);
+		console.log(name);
+		console.log(assignedTo);
+		console.log(dueDate);
+		console.log(description);
 
-	taskManager.render();
+		taskManager.addTask(name, description, assignedTo, dueDate);
+  
+		console.log(taskManager.tasks);
+
+		taskManager.render();
+
+	}
 
 });
 
