@@ -54,10 +54,10 @@ class TaskManager {
                             Status
                           </button>
                           <div id="dropdown-status-button" class="dropdown-menu" aria-labelledby="dropdownStatusButton" data-task-id="${id}">
-                            <a class="dropdown-item">todo</a>
-                            <a class="dropdown-item">in progress</a>
-                            <a class="dropdown-item">review</a>
-                            <a class="dropdown-item done-button">done</a>
+                            <a class="dropdown-item">TODO</a>
+                            <a class="dropdown-item">IN_PROGRESS</a>
+                            <a class="dropdown-item">REVIEW</a>
+                            <a class="dropdown-item done-button">DONE</a>
                           </div>
                           <a href="#" class="pencil-icon ml-3"></a>
                           <a href="#" class="trash-icon ml-3"></a>
