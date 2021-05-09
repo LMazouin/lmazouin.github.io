@@ -2,7 +2,6 @@
   font-family: "Classic Console" url("../fonts/clacon.ttf") format("tuetype");
 }
 
-
 html {
   font-size: 64px;
 }
@@ -14,19 +13,32 @@ html {
 
 body {
   font-family: "Classic Console", Times, serif;
-  background-color: #000; 
+  background-color: #222; 
+  color: #3F3;
+  text-shadow: -1px 1px 2px #3F3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .container {
   display: block;
   position: relative;
   font-size: 0.5rem;
-  padding-left: 0.5rem;
   margin-bottom: 0.25rem;
   cursor: pointer;
   user-select: none;
-  color: #FFF;
+  padding-left: 0.75rem;
 }
+
 
 /* hide the default checkbox */
 .container input {
@@ -51,7 +63,7 @@ body {
 }
 
 .container:hover input ~ .checkmark {
-  background-color: #0FF;
+  /* background-color: #0FF; */
 }
 
 .container input:checked ~ .checkmark {
@@ -77,4 +89,48 @@ body {
   width: 0.5em;
   height: 0.5em;
   background-color: #FFF;
+}
+
+.input-container {
+  display: block;
+  position: relative;
+  font-size: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.input-container input {
+  border: none;
+  background-color: transparent;
+  caret-color: transparent;
+  color: #6F6;
+  text-shadow: -1px 1px 2px #3F3 ;
+  font-family: "Classic Console", Times, serif;
+  font-size: 0.5rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.input-container input:focus {
+  outline: none;
+}
+
+
+.blink-animation {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }

@@ -4,19 +4,31 @@
   <meta charset="UTF-8">
   <title>Check Boxes</title>
   <link rel="stylesheet" href="./css/check_boxes.css" type="text/css">
+  <link rel="stylesheet" href="./css/crt.css" type="text/css">
+  <script src="./js/input_fields.js" defer></script>
 </head>
 <body>
-  <label for="checkbox-input-one" class="container">one
-    <input type="checkbox" name="checkbox-input" id="checkbox-input-one">
-    <span class="checkmark"></span>
-  </label>  
-  <label for="checkbox-input-two" class="container">two
-    <input type="checkbox" name="checkbox-input" id="checkbox-input-two">
-    <span class="checkmark"></span>
-  </label>  
-  <label for="checkbox-input-three" class="container">three
-    <input type="checkbox" name="checkbox-input" id="checkbox-input-three">
-    <span class="checkmark"></span>
-  </label>  
+  <section id="checkboxes">
+    <label for="checkbox-input-one" class="container">один
+      <input type="checkbox" name="checkbox-input" id="checkbox-input-one">
+      <span class="checkmark"></span>
+    </label>  
+    <label for="checkbox-input-two" class="container">два
+      <input type="checkbox" name="checkbox-input" id="checkbox-input-two">
+      <span class="checkmark"></span>
+    </label>  
+    <label for="checkbox-input-three" class="container">три
+      <input type="checkbox" name="checkbox-input" id="checkbox-input-three">
+      <span class="checkmark"></span>
+    </label>  
+  </section>
+  <section id="input-fields">
+    <div id="previous-input-fields"> 
+    </div>
+    <label for="text-input" class="input-container">
+      <span id="text-input-label-0" class="blink-animation">root></span>
+      <input type="text" name="text-input" id="text-input-0" autocomplete="false" spellcheck="false" autofocus>
+    </label>
+  </section>
 </body>
 </html>
